@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>Student & Faculty Portal | Feedbackflow</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body class="portal-page">
+  <main class="portal-shell">
+    <header class="portal-header"><a class="brand" href="/index.html"><span class="brand-mark">F</span><span>feedbackflow<small>COURSE INSIGHTS</small></span></a><a class="text-link" href="/admin.html">Administrator <span aria-hidden="true">↗</span></a></header>
+    <div id="notice" class="notice portal-notice" role="status" aria-live="polite" hidden></div>
+    <section id="login-view" class="login-layout">
+      <div class="welcome-copy"><p class="eyebrow">A BETTER WAY TO BE HEARD</p><h1>Good courses<br>keep <em>listening.</em></h1><p class="welcome-description">Share thoughtful feedback about your courses, or see how your teaching is landing with students.</p><div class="welcome-rule"><span>01</span><span>Clear questions. Useful insight. Better learning.</span></div></div>
+      <form id="login-form" class="login-panel"><div class="login-panel-head"><span class="login-symbol" aria-hidden="true">↗</span><div><p class="eyebrow">PORTAL ACCESS</p><h2>Welcome back</h2></div></div><label>I am a<select name="role" required><option value="STUDENT">Student</option><option value="FACULTY">Faculty</option></select></label><label>Email or roll number<input name="identifier" autocomplete="username" required placeholder="you@college.edu"></label><label>Password<input name="password" type="password" autocomplete="current-password" required placeholder="Enter your password"></label><button class="button button-primary button-wide" type="submit">Sign in <span aria-hidden="true">→</span></button><p class="demo-note">Use the account details provided by your department.</p></form>
+    </section>
+    <section id="student-view" class="portal-dashboard" hidden>
+      <header class="welcome-bar"><div><p class="eyebrow">STUDENT SPACE</p><h1>Welcome, <span id="student-name"></span></h1><p class="muted" id="student-department"></p></div><button class="button button-quiet" data-logout type="button">Sign out <span aria-hidden="true">↗</span></button></header>
+      <section class="portal-section"><div class="section-heading"><div><p class="eyebrow">YOUR SCHEDULE</p><h2>Assigned courses</h2></div></div><div id="student-courses" class="course-strip"></div></section>
+      <section class="portal-section"><div class="section-heading"><div><p class="eyebrow">YOUR INPUT MATTERS</p><h2>Available feedback</h2></div><button class="button button-quiet" id="student-refresh" type="button">Refresh <span aria-hidden="true">↻</span></button></div><div class="table-panel"><div class="table-scroll"><table><thead><tr><th>Course</th><th>Semester</th><th>Deadline</th><th>Status</th><th></th></tr></thead><tbody id="student-forms-body"></tbody></table></div></div></section>
+      <section class="portal-section section-last"><div class="section-heading"><div><p class="eyebrow">YOUR RECORD</p><h2>Submitted feedback</h2></div></div><div id="submission-history" class="history-list"></div></section>
+    </section>
+    <section id="faculty-view" class="portal-dashboard" hidden>
+      <header class="welcome-bar"><div><p class="eyebrow">FACULTY SPACE</p><h1>Welcome, <span id="faculty-name"></span></h1><p class="muted" id="faculty-department"></p></div><button class="button button-quiet" data-logout type="button">Sign out <span aria-hidden="true">↗</span></button></header>
+      <section class="portal-section"><div class="section-heading"><div><p class="eyebrow">TEACHING PORTFOLIO</p><h2>Course feedback</h2></div></div><div id="faculty-courses" class="faculty-course-list"></div></section>
+    </section>
+    <footer class="page-footer portal-footer"><span>FEEDBACKFLOW</span><span>Course feedback, made useful.</span></footer>
+  </main>
+  <dialog id="feedback-dialog" class="feedback-dialog" aria-labelledby="dialog-title"><form id="submission-form" method="dialog"><header class="dialog-heading"><div><p class="eyebrow">COURSE FEEDBACK</p><h2 id="dialog-title">Share your perspective</h2><p id="dialog-course" class="muted"></p></div><button class="icon-button" id="close-dialog" type="button" aria-label="Close feedback form">×</button></header><div id="question-list" class="question-list"></div><div class="dialog-actions"><button class="button button-quiet" id="cancel-dialog" type="button">Cancel</button><button class="button button-primary" type="submit">Submit feedback <span aria-hidden="true">→</span></button></div></form></dialog>
+</body>
+</html>

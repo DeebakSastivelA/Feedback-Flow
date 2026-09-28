@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>Administration | Feedbackflow</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/admin.js" defer></script>
+</head>
+<body class="admin-page">
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="/admin.html"><span class="brand-mark">F</span><span>feedbackflow<small>COURSE INSIGHTS</small></span></a>
+      <nav class="side-nav" aria-label="Administrator navigation">
+        <a class="active" href="#overview"><span>01</span>Overview</a>
+        <a href="#people"><span>02</span>People</a>
+        <a href="#courses"><span>03</span>Courses</a>
+        <a href="#forms"><span>04</span>Feedback forms</a>
+      </nav>
+      <div class="sidebar-bottom"><span class="status-dot"></span> Administration workspace<a href="/index.html">Open user portal <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <main class="workspace">
+      <header class="topbar"><div><p class="eyebrow">DEPARTMENT OPERATIONS</p><h1>Feedback dashboard</h1></div><div class="topbar-meta"><span class="live-tag"><span class="status-dot"></span> Live data</span><span class="avatar">AD</span></div></header>
+      <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+      <section id="overview" class="section-block">
+        <div class="section-heading"><div><p class="eyebrow">AT A GLANCE</p><h2>Semester overview</h2></div><button class="button button-quiet" id="refresh-all" type="button"><span aria-hidden="true">↻</span> Refresh</button></div>
+        <div class="metric-grid">
+          <article class="metric"><span class="metric-label">Students</span><strong id="metric-students">—</strong><span class="metric-foot">Registered learners</span></article>
+          <article class="metric"><span class="metric-label">Faculty</span><strong id="metric-faculties">—</strong><span class="metric-foot">Teaching staff</span></article>
+          <article class="metric"><span class="metric-label">Courses</span><strong id="metric-courses">—</strong><span class="metric-foot">Active course records</span></article>
+          <article class="metric metric-accent"><span class="metric-label">Feedback forms</span><strong id="metric-forms">—</strong><span class="metric-foot"><span id="metric-filled">—</span> submissions received</span></article>
+        </div>
+      </section>
+
+      <section id="people" class="section-block">
+        <div class="section-heading"><div><p class="eyebrow">DIRECTORY</p><h2>People</h2></div></div>
+        <div class="split-layout">
+          <form id="student-form" class="form-panel">
+            <div class="panel-heading"><div><span class="panel-index">A</span><div><h3>Add student</h3><p>Assign a student to one course.</p></div></div></div>
+            <label>Full name<input name="name" required autocomplete="name" placeholder="e.g. Morgan Lee"></label>
+            <div class="field-row"><label>Roll number<input name="rollNumber" required pattern="(CS|ME|CE|EC|EE)[0-9]{3}" autocomplete="off" placeholder="e.g. CS000"><small id="student-roll-help" class="field-help">Format: CS000</small></label><label>Email<input name="email" type="email" required autocomplete="email" pattern="[A-Za-z0-9._%+\-]+@stu\.edu\.in" placeholder="name@stu.edu.in"><small class="field-help">Format: name@stu.edu.in</small></label></div>
+            <div class="field-row"><label>Department<select name="department" required><option value="">Choose department</option><option>Computer Science and Engineering</option><option>Mechanical Engineering</option><option>Civil Engineering</option><option>Electronics and communication engineering</option><option>Electronics and Electrical Engineering</option></select></label><label>Password<input name="password" type="password" required autocomplete="new-password" minlength="6" placeholder="At least 6 characters"></label></div>
+            <label>Assigned course<select name="assignedCourseId" required><option value="">Choose a course</option></select></label>
+            <button class="button button-primary" type="submit">Add student <span aria-hidden="true">→</span></button>
+          </form>
+          <form id="faculty-form" class="form-panel">
+            <div class="panel-heading"><div><span class="panel-index panel-index-coral">B</span><div><h3>Add faculty</h3><p>Assign one or more existing courses.</p></div></div></div>
+            <label>Full name<input name="name" required autocomplete="name" placeholder="e.g. Dr. Sam Patel"></label>
+            <label>Email<input name="email" type="email" required autocomplete="email" pattern="[A-Za-z0-9._%+\-]+@prof\.edu\.in" placeholder="name@prof.edu.in"><small class="field-help">Format: name@prof.edu.in</small></label>
+            <div class="field-row"><label>Department<select name="department" required><option value="">Choose department</option><option>Computer Science and Engineering</option><option>Mechanical Engineering</option><option>Civil Engineering</option><option>Electronics and communication engineering</option><option>Electronics and Electrical Engineering</option></select></label><label>Password<input name="password" type="password" required autocomplete="new-password" minlength="6" placeholder="At least 6 characters"></label></div>
+            <label>Assigned courses <span class="label-note">Optional</span><select name="assignedCourseIds" multiple size="3" aria-label="Assigned courses"></select></label>
+            <button class="button button-primary button-coral" type="submit">Add faculty <span aria-hidden="true">→</span></button>
+          </form>
+        </div>
+        <div class="table-panel"><div class="table-title"><div><p class="eyebrow">LEARNERS</p><h3>Students</h3></div><span class="count-badge" id="student-count">0</span></div><div class="table-scroll"><table><thead><tr><th>Student</th><th>Roll number</th><th>Department</th><th>Assigned courses</th><th></th></tr></thead><tbody id="students-body"><tr><td colspan="5" class="empty-cell">Loading students…</td></tr></tbody></table></div></div>
+        <div class="table-panel"><div class="table-title"><div><p class="eyebrow">TEACHING STAFF</p><h3>Faculty members</h3></div><span class="count-badge" id="faculty-count">0</span></div><div class="table-scroll"><table><thead><tr><th>Faculty</th><th>Email</th><th>Department</th><th>Assigned courses</th><th></th></tr></thead><tbody id="faculties-body"><tr><td colspan="5" class="empty-cell">Loading faculty…</td></tr></tbody></table></div></div>
+      </section>
+
+      <section id="courses" class="section-block">
+        <div class="section-heading"><div><p class="eyebrow">ACADEMIC CATALOG</p><h2>Courses</h2></div></div>
+        <form id="course-form" class="inline-form form-panel">
+          <label>Course code<input name="courseCode" required placeholder="CS204"></label><label>Course title<input name="title" required placeholder="Data Structures"></label><label>Faculty member<select name="facultyId" required><option value="">Choose faculty</option></select></label><button class="button button-primary" type="submit">Create course <span aria-hidden="true">+</span></button>
+        </form>
+        <div class="table-panel"><div class="table-title"><div><p class="eyebrow">COURSE ROSTER</p><h3>Course assignments</h3></div><span class="count-badge" id="course-count">0</span></div><div class="table-scroll"><table><thead><tr><th>Code</th><th>Course</th><th>Faculty member</th></tr></thead><tbody id="courses-body"><tr><td colspan="3" class="empty-cell">Loading courses…</td></tr></tbody></table></div></div>
+      </section>
+
+      <section id="forms" class="section-block section-last">
+        <div class="section-heading"><div><p class="eyebrow">STUDENT VOICE</p><h2>Feedback forms</h2></div></div>
+        <form id="feedback-form" class="inline-form form-panel">
+          <label>Course<select name="courseId" required><option value="">Choose course</option></select></label><label>Semester<input name="semester" required placeholder="Fall 2026"></label><label>Closing date<input name="closingDate" type="date" required></label><button class="button button-primary button-coral" type="submit">Publish form <span aria-hidden="true">↗</span></button>
+        </form>
+        <div class="fixed-note"><span aria-hidden="true">✓</span><span><strong>Six standard questions</strong> are attached automatically to every form and cannot be changed.</span></div>
+        <div class="table-panel"><div class="table-title"><div><p class="eyebrow">PUBLISHED</p><h3>Form activity</h3></div><span class="count-badge" id="form-count">0</span></div><div class="table-scroll"><table><thead><tr><th>Course</th><th>Semester</th><th>Deadline</th><th>Status</th><th>Submitted</th><th></th></tr></thead><tbody id="forms-body"><tr><td colspan="6" class="empty-cell">Loading forms…</td></tr></tbody></table></div></div>
+      </section>
+      <footer class="page-footer"><span>FEEDBACKFLOW</span><span>Course feedback, made useful.</span></footer>
+    </main>
+  </div>
+</body>
+</html>
