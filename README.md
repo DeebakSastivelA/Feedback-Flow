@@ -54,31 +54,6 @@ CSS
 
 Vanilla JavaScript
 
-Rating Scale
-
-Rating
-
-Meaning
-
-5
-
-Strongly Agree
-
-4
-
-Agree
-
-3
-
-Somewhat Agree
-
-2
-
-Disagree
-
-1
-
-Strongly Disagree
 
 Run Locally
 
