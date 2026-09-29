@@ -1,0 +1,331 @@
+FEEDBACKFLOW PROJECT REFERENCE
+==============================
+
+Purpose
+-------
+FeedbackFlow is a college course-feedback application. Administrators manage
+students, faculty, courses, and feedback forms. Students submit course ratings.
+Faculty review course-level and question-level summaries.
+
+
+PROJECT FOLDER STRUCTURE
+------------------------
+feedback-flow/
+|-- .github/
+|   `-- modernize/
+|       `-- java-upgrade/
+|           |-- .gitignore
+|           `-- hooks/
+|               `-- scripts/                 (directory; no files found)
+|-- .mvn/
+|   `-- wrapper/
+|       `-- maven-wrapper.properties
+|-- .vscode/
+|   `-- settings.json
+|-- .gitattributes
+|-- .gitignore
+|-- HELP.md                                  (Spring Initializr help)
+|-- README.md
+|-- mvnw                                     (Unix Maven wrapper)
+|-- mvnw.cmd                                 (Windows Maven wrapper)
+|-- pom.xml
+|-- src/
+|   |-- main/
+|   |   |-- java/com/feedbackflow/
+|   |   |   |-- FeedbackFlowApplication.java
+|   |   |   |-- config/
+|   |   |   |   `-- package-info.java
+|   |   |   |-- controller/
+|   |   |   |   |-- AdminController.java
+|   |   |   |   |-- AuthController.java
+|   |   |   |   |-- CourseController.java
+|   |   |   |   |-- FacultyController.java
+|   |   |   |   |-- FeedbackController.java
+|   |   |   |   `-- FeedbackFormController.java
+|   |   |   |-- dto/
+|   |   |   |   |-- AnswerRequest.java
+|   |   |   |   |-- ApiResponses.java
+|   |   |   |   |-- CreateCourseRequest.java
+|   |   |   |   |-- CreateFacultyRequest.java
+|   |   |   |   |-- CreateFeedbackFormRequest.java
+|   |   |   |   |-- CreateStudentRequest.java
+|   |   |   |   |-- DashboardResponse.java
+|   |   |   |   |-- FeedbackSummaryResponse.java
+|   |   |   |   |-- LoginRequest.java
+|   |   |   |   `-- SubmitFeedbackRequest.java
+|   |   |   |-- entity/
+|   |   |   |   |-- Course.java
+|   |   |   |   |-- Faculty.java
+|   |   |   |   |-- FeedbackForm.java
+|   |   |   |   |-- FeedbackSubmission.java
+|   |   |   |   |-- FormStatus.java
+|   |   |   |   |-- Question.java
+|   |   |   |   |-- Response.java
+|   |   |   |   |-- Student.java
+|   |   |   |   `-- StudentCourse.java
+|   |   |   |-- exception/
+|   |   |   |   |-- DuplicateFeedbackException.java
+|   |   |   |   |-- FormClosedException.java
+|   |   |   |   |-- GlobalExceptionHandler.java
+|   |   |   |   |-- InvalidCredentialsException.java
+|   |   |   |   |-- ResourceConflictException.java
+|   |   |   |   `-- ResourceNotFoundException.java
+|   |   |   |-- repository/
+|   |   |   |   |-- CourseRepository.java
+|   |   |   |   |-- FacultyRepository.java
+|   |   |   |   |-- FeedbackFormRepository.java
+|   |   |   |   |-- FeedbackSubmissionRepository.java
+|   |   |   |   |-- QuestionRepository.java
+|   |   |   |   |-- ResponseRepository.java
+|   |   |   |   |-- StudentCourseRepository.java
+|   |   |   |   `-- StudentRepository.java
+|   |   |   `-- service/
+|   |   |       |-- AdminService.java
+|   |   |       |-- ApiMapper.java
+|   |   |       |-- AuthService.java
+|   |   |       |-- CourseService.java
+|   |   |       |-- FacultyService.java
+|   |   |       |-- FeedbackFormService.java
+|   |   |       `-- FeedbackService.java
+|   |   `-- resources/
+|   |       |-- application.properties
+|   |       `-- static/
+|   |           |-- admin.html
+|   |           |-- admin.js
+|   |           |-- app.js
+|   |           |-- index.html
+|   |           `-- style.css
+|   `-- test/java/com/feedback/feedback_flow/   (directory is empty)
+|-- target/                                  (generated Maven build output; ignored)
+`-- PROJECT_REFERENCE.txt                    (this file)
+
+There is no templates/ directory, package.json, frontend build system, or
+separate frontend project. Spring Boot serves the files in resources/static.
+The .git/ directory is repository metadata and is not expanded here.
+
+
+TECHNOLOGY STACK
+----------------
+Language/runtime: Java 25 (pom.xml sets java.version to 25).
+Backend framework: Spring Boot 4.1.1.
+Build: Apache Maven through Maven Wrapper 3.3.4; configured Maven distribution
+is 3.9.16.
+Web: Spring Web MVC / Spring MVC REST controllers.
+Persistence: Spring Data JPA with Hibernate ORM.
+Database: MySQL, using mysql-connector-j at runtime.
+Validation: Jakarta Bean Validation via spring-boot-starter-validation.
+Frontend: HTML5, CSS3, and browser-native JavaScript with Fetch API.
+Serialization: JSON request/response DTOs handled by Spring MVC/Jackson.
+Frontend frameworks: None. No React, Angular, Vue, Node package manifest, CDN,
+or external font dependency was found.
+
+Main Maven dependencies declared in pom.xml:
+- spring-boot-starter-data-jpa
+- spring-boot-starter-validation
+- spring-boot-starter-webmvc
+- mysql-connector-j (runtime scope)
+- spring-boot-maven-plugin (build plugin)
+
+
+APPLICATION ARCHITECTURE
+------------------------
+FeedbackFlowApplication starts Spring Boot component scanning and auto-config.
+
+controller/  HTTP endpoints; delegates application work to services.
+service/     Business rules, transactions, and DTO/entity mapping.
+repository/  Spring Data JpaRepository interfaces and derived query methods.
+entity/      JPA persistence model.
+dto/         Request and response records; keeps API shapes separate from entities.
+exception/   Domain exceptions and centralized JSON error responses.
+config/      Contains only package-info.java; no Java configuration class found.
+resources/   Database/server settings and static browser application.
+
+Repositories extend JpaRepository. No custom SQL @Query annotation was found;
+queries use JpaRepository operations and Spring Data method-name derivation.
+Constructor injection is used by controllers and services. There is no Lombok.
+
+
+ANNOTATIONS USED
+----------------
+Spring Boot / dependency injection / transactions:
+- @SpringBootApplication: application entry point and Boot auto-configuration.
+- @Service: registers service classes as Spring beans.
+- @Transactional: service transaction boundaries; read-only transactions are
+  marked with @Transactional(readOnly = true).
+
+Spring MVC / REST:
+- @RestController: REST controller with response-body serialization.
+- @RequestMapping: controller base path.
+- @GetMapping, @PostMapping, @PutMapping, @DeleteMapping: HTTP route mappings.
+- @PathVariable: binds a URL path parameter.
+- @RequestBody: binds a JSON body to a request DTO.
+- @Valid: triggers Bean Validation for request DTOs and nested answer records.
+
+Jakarta Bean Validation constraints found in request DTOs:
+- @NotBlank: required non-empty text.
+- @NotNull: required non-null value.
+- @NotEmpty: non-empty answer list.
+- @Positive: positive identifier values.
+- @DecimalMin and @DecimalMax: rating range of 1 through 5.
+- @Pattern: name, student roll number, institutional email, and password format.
+- @Size: minimum password length.
+- @FutureOrPresent: feedback form closing date.
+- @Valid: cascades validation to each answer in the answer list.
+
+JPA / Hibernate:
+- @Entity: persistent entity type.
+- @Table and @UniqueConstraint: table-level unique constraints.
+- @Id and @GeneratedValue(strategy = GenerationType.IDENTITY): primary keys.
+- @Column: nullability, uniqueness, and length constraints.
+- @ManyToOne and @OneToMany: entity associations.
+- @JoinColumn: foreign-key column names and nullability.
+- @Enumerated(EnumType.STRING): stores form status by enum name.
+- @OrderBy: orders questions by displayOrder.
+- CascadeType.ALL and orphanRemoval=true are association settings, not annotations.
+
+Exception handling:
+- @RestControllerAdvice: global REST exception advice.
+- @ExceptionHandler: maps domain, validation, persistence, and unexpected
+  exceptions to JSON responses and HTTP status codes.
+
+No explicit @Repository annotation was found; Spring Data creates repository
+beans from JpaRepository interfaces.
+
+
+DATA MODEL
+----------
+Student: learner identity, roll number, email, department, password, course links.
+Faculty: staff identity, email, department, password, assigned courses.
+Course: unique course code, title, assigned faculty.
+StudentCourse: join entity connecting students to assigned courses; student/course
+pair is unique.
+FeedbackForm: course, semester, closing date, OPEN/CLOSED state, creation time.
+Question: fixed prompt, display order, rating limits; belongs to one form.
+FeedbackSubmission: student, form, submission time; student/form pair is unique.
+Response: one rating linking a submission to one question.
+FormStatus: enum with OPEN and CLOSED values.
+
+Main relationships:
+Faculty 1-to-many Course.
+Student many-to-many Course through StudentCourse.
+Course 1-to-many FeedbackForm.
+FeedbackForm 1-to-many Question and FeedbackSubmission.
+FeedbackSubmission 1-to-many Response.
+Response many-to-one Question.
+
+
+REST API
+--------
+All endpoints are under the same web application origin and use JSON bodies or
+responses where applicable.
+
+ADMIN / CATALOG:
+POST   /api/admin/students                 Create student (201).
+GET    /api/admin/students                 List students.
+POST   /api/admin/students/{studentId}/courses/{courseId}
+                                            Assign an additional course to a student.
+DELETE /api/admin/students/{id}            Delete student when allowed.
+POST   /api/admin/faculties                Create faculty (201).
+GET    /api/admin/faculties                List faculty.
+DELETE /api/admin/faculties/{id}           Delete faculty when allowed.
+POST   /api/admin/courses                  Create course (201).
+GET    /api/admin/courses                  List courses.
+GET    /api/admin/dashboard                Dashboard counts and totals.
+POST   /api/admin/forms                    Publish feedback form (201).
+GET    /api/admin/forms                    List forms and submission counts.
+PUT    /api/forms/{id}/close               Close a form early.
+
+AUTHENTICATION / STUDENT / FACULTY:
+POST   /api/auth/login                     Student or faculty login.
+GET    /api/student/{studentId}/forms      Forms for courses assigned to student.
+GET    /api/student/{studentId}/submissions Submission history for student.
+POST   /api/forms/{formId}/submissions     Submit ratings (201).
+GET    /api/faculty/{facultyId}/feedback-summary
+                                            Faculty course/question summaries.
+
+The REST controller classes are AdminController, AuthController,
+CourseController, FacultyController, FeedbackController, and
+FeedbackFormController. GlobalExceptionHandler formats API errors.
+
+
+FRONTEND PAGES AND FEATURES
+---------------------------
+index.html + app.js:
+- Student/faculty login and role selection.
+- Student assigned courses, open feedback forms, submission history, and form
+  submission dialog.
+- Faculty assigned-course feedback summaries and question averages.
+- Uses Fetch API endpoints under /api/.
+
+admin.html + admin.js:
+- Dashboard counts and management for students, faculty, courses, and feedback
+  forms; links to the user portal.
+- Uses the same backend APIs; it is an administrative UI, not an authenticated
+  administrator security boundary.
+
+style.css:
+- Shared responsive styling for both pages, dark-green administration sidebar,
+  forms, tables, dashboards, status indicators, and dialog controls.
+
+
+BUSINESS RULES
+--------------
+- A new feedback form receives six fixed questions in fixed display order.
+- Ratings use a five-point integer scale: 1 through 5.
+- A student must be assigned to the course to submit its feedback form.
+- Administrators can assign additional courses after student creation. Forms
+  for those courses become available automatically through the existing
+  student-course eligibility rule; there is no separate student-form relation.
+- A student can submit at most once per form; enforced in service logic and by
+  a database unique constraint on student_id + feedback_form_id.
+- All six questions must be answered exactly once; answers must belong to that
+  form and ratings must be whole numbers within 1..5.
+- A form rejects submissions if explicitly CLOSED or after its closing date.
+- Faculty summaries include response counts, overall averages, per-question
+  averages, and lowest-rated question.
+- Students with submissions and faculty with assigned courses cannot be deleted.
+
+
+CONFIGURATION AND RUNNING
+-------------------------
+Configuration file: src/main/resources/application.properties
+- Application name: feedbackflow.
+- Default JDBC URL: jdbc:mysql://localhost:3306/feedbackflow_db with
+  createDatabaseIfNotExist=true.
+- Default MySQL username is set in the properties file. A password is also
+  currently configured directly there; its value is intentionally omitted here.
+- spring.jpa.hibernate.ddl-auto=update.
+- SQL logging and formatted SQL are enabled.
+- HTTP port: 8080.
+- Stack traces are disabled in HTTP error responses.
+
+Prerequisites: JDK 25 and a reachable MySQL server/user with permission to use
+the configured database. Update application.properties for the local database.
+
+Windows commands from the project root:
+  .\mvnw.cmd test
+  .\mvnw.cmd clean package
+  .\mvnw.cmd spring-boot:run
+
+Pages:
+  http://localhost:8080/index.html
+  http://localhost:8080/admin.html
+
+
+TESTING AND PROJECT NOTES
+-------------------------
+- src/test/java/com/feedback/feedback_flow exists but contains no test source
+  files at the time this reference was generated.
+- target/ is generated Maven output and is ignored by Git.
+- The project's actual Java package is com.feedbackflow.
+- HELP.md contains stale Spring Initializr text mentioning an older package.
+- README.md's sample database properties do not match the active
+  application.properties; use application.properties as the runtime source of
+  truth.
+- Passwords are compared/stored as plain text in this demo. There is no Spring
+  Security dependency, password hashing, session/token flow, or admin
+  authentication/authorization. Do not deploy this configuration to an
+  untrusted network or production environment.
+- The datasource password is stored directly in application.properties. Move
+  credentials to environment-specific secret configuration before sharing or
+  deploying the project.

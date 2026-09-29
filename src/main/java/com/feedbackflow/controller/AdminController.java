@@ -1,15 +1,24 @@
 package com.feedbackflow.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.feedbackflow.dto.ApiResponses;
 import com.feedbackflow.dto.CreateFacultyRequest;
 import com.feedbackflow.dto.CreateStudentRequest;
 import com.feedbackflow.dto.DashboardResponse;
 import com.feedbackflow.service.AdminService;
+
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -23,6 +32,10 @@ public class AdminController {
     }
     @GetMapping("/students")
     public List<ApiResponses.Student> students() { return service.getStudents(); }
+    @PostMapping("/students/{studentId}/courses/{courseId}")
+    public ApiResponses.Student assignCourse(@PathVariable Long studentId, @PathVariable Long courseId) {
+        return service.assignCourse(studentId, courseId);
+    }
     @DeleteMapping("/students/{id}")
     public ApiResponses.Message deleteStudent(@PathVariable Long id) { service.deleteStudent(id); return new ApiResponses.Message("Student deleted."); }
 

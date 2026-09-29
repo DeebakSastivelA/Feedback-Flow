@@ -1,16 +1,28 @@
 package com.feedbackflow.service;
 
-import com.feedbackflow.dto.*;
-import com.feedbackflow.dto.ApiResponses;
-import com.feedbackflow.entity.*;
-import com.feedbackflow.exception.ResourceNotFoundException;
-import com.feedbackflow.exception.ResourceConflictException;
-import com.feedbackflow.repository.*;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.feedbackflow.dto.ApiResponses;
+import com.feedbackflow.dto.CreateFacultyRequest;
+import com.feedbackflow.dto.CreateStudentRequest;
+import com.feedbackflow.dto.DashboardResponse;
+import com.feedbackflow.entity.Course;
+import com.feedbackflow.entity.Faculty;
+import com.feedbackflow.entity.Student;
+import com.feedbackflow.entity.StudentCourse;
+import com.feedbackflow.exception.ResourceConflictException;
+import com.feedbackflow.exception.ResourceNotFoundException;
+import com.feedbackflow.repository.CourseRepository;
+import com.feedbackflow.repository.FacultyRepository;
+import com.feedbackflow.repository.FeedbackFormRepository;
+import com.feedbackflow.repository.FeedbackSubmissionRepository;
+import com.feedbackflow.repository.StudentCourseRepository;
+import com.feedbackflow.repository.StudentRepository;
 
 @Service
 @Transactional
@@ -52,6 +64,15 @@ public class AdminService {
 
     @Transactional(readOnly = true)
     public List<ApiResponses.Student> getStudents() { return students.findAll().stream().map(this::student).toList(); }
+
+    public ApiResponses.Student assignCourse(Long studentId, Long courseId) {
+        Student student = students.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student not found."));
+        Course course = courses.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found."));
+        if (studentCourses.existsByStudentIdAndCourseId(studentId, courseId))
+            throw new ResourceConflictException("This student is already assigned to the course.");
+        studentCourses.save(new StudentCourse(student, course));
+        return student(student);
+    }
 
     public void deleteStudent(Long id) {
         Student student = students.findById(id).orElseThrow(() -> new ResourceNotFoundException("Student not found."));

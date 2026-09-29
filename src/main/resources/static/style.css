@@ -102,6 +102,12 @@ td small { display: block; margin-top: 2px; color: #89928c; font-size: 10px; }
 .empty-cell { padding: 24px 15px; color: #8b948e; text-align: center; }
 .delete-button, .table-action { border: 0; color: #a14f3c; background: transparent; cursor: pointer; font-size: 10px; font-weight: 700; white-space: nowrap; }
 .delete-button:hover, .table-action:hover { text-decoration: underline; }
+.student-assignment { margin-top: 4px; }
+.student-assignment summary { display: inline-flex; cursor: pointer; list-style: none; }
+.student-assignment summary::-webkit-details-marker { display: none; }
+.student-assignment-form { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+.student-assignment-form select { width: min(220px, 100%); min-height: 31px; padding: 5px 7px; font-size: 10px; }
+.student-assignment-form .button { min-height: 31px; padding-inline: 9px; font-size: 10px; }
 .pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 3px; font-size: 9px; font-weight: 750; white-space: nowrap; }
 .pill-open { color: #276a4d; background: #e5f2e9; }
 .pill-closed { color: #895841; background: #f6ece6; }

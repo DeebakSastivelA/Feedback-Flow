@@ -39,11 +39,24 @@ function emptyRow(columns, message) {
   return `<tr><td colspan="${columns}" class="empty-cell">${escapeHtml(message)}</td></tr>`;
 }
 
+function studentAssignmentControl(student) {
+  const assignedCourseIds = student.courseIds || [];
+  const availableCourses = state.courses.filter(course => !assignedCourseIds.includes(course.id));
+  if (!availableCourses.length) return `<small class="field-help">All current courses assigned</small>`;
+  const options = availableCourses.map(course =>
+    `<option value="${course.id}">${escapeHtml(course.courseCode)} · ${escapeHtml(course.title)}</option>`).join("");
+  return `<details class="student-assignment"><summary class="table-action">Assign course</summary>
+    <form class="student-assignment-form" data-assign-student="${student.id}">
+      <select name="courseId" required aria-label="Choose a course for ${escapeHtml(student.name)}"><option value="">Choose course</option>${options}</select>
+      <button class="button button-quiet" type="submit">Assign</button>
+    </form></details>`;
+}
+
 function renderPeople() {
   document.querySelector("#student-count").textContent = state.students.length;
   document.querySelector("#faculty-count").textContent = state.faculties.length;
   document.querySelector("#students-body").innerHTML = state.students.length ? state.students.map(student => `
-    <tr><td><strong>${escapeHtml(student.name)}</strong><small>${escapeHtml(student.email)}</small></td>
+    <tr><td><strong>${escapeHtml(student.name)}</strong><small>${escapeHtml(student.email)}</small>${studentAssignmentControl(student)}</td>
     <td>${escapeHtml(student.rollNumber)}</td><td>${escapeHtml(student.department)}</td>
     <td>${escapeHtml(student.assignedCourses.join(", "))}</td>
     <td><button class="delete-button" type="button" data-delete-student="${student.id}" aria-label="Delete ${escapeHtml(student.name)}">Delete</button></td></tr>`).join("") : emptyRow(5, "No students have been added yet.");
@@ -247,6 +260,24 @@ document.querySelector("#feedback-form").addEventListener("submit", event => {
   }
   submitForm(form, "/api/admin/forms", "Feedback form published with six standard questions.", () => ({ ...data, courseId: Number(data.courseId) }));
 });
+
+document.body.addEventListener("submit", async event => {
+    const form = event.target.closest("form[data-assign-student]");
+    if (!form) return;
+    event.preventDefault();
+    const button = form.querySelector('button[type="submit"]');
+    button.disabled = true;
+    try {
+      const studentId = form.dataset.assignStudent;
+      const courseId = form.elements.courseId.value;
+      const student = await api(`/api/admin/students/${studentId}/courses/${courseId}`, { method: "POST" });
+      showNotice(`${student.name} is now assigned to that course. Its feedback forms are available in the student portal.`);
+      await refreshAll();
+    } catch (error) {
+      showNotice(error.message, true);
+      button.disabled = false;
+    }
+  });
 
 document.body.addEventListener("click", async event => {
   const studentId = event.target.closest("[data-delete-student]")?.dataset.deleteStudent;
