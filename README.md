@@ -92,10 +92,10 @@ feedbackflow/
 Install and start MySQL, and install a Java 25 JDK. The default configuration in `src/main/resources/application.properties` is:
 
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/feedbackflow_db?createDatabaseIfNotExist=true
-spring.datasource.username=root
-spring.datasource.password=dbak
-spring.jpa.hibernate.ddl-auto=update
+spring.datasource.url="your jdbc url"
+spring.datasource.username="your username"
+spring.datasource.password="your password"
+spring.jpa.hibernate.ddl-auto=updatoue
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 server.port=8080
