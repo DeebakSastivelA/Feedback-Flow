@@ -29,7 +29,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .app-shell { min-height: 100vh; }
 .sidebar { position: fixed; inset: 0 auto 0 0; z-index: 2; display: flex; width: 236px; flex-direction: column; padding: 31px 22px 24px; color: #eaf0eb; background: #1c342b; }
 .brand { display: inline-flex; align-items: center; gap: 11px; width: fit-content; font-size: 16px; font-weight: 750; }
-.brand small { display: block; margin-top: 1px; color: #aab8af; font-size: 9px; font-weight: 650; }
+.brand small { display: block; margin-top: 2px; color: #aab8af; font-size: 9px; font-weight: 600; }
 .brand-mark { display: grid; width: 35px; height: 35px; place-items: center; border-radius: 9px; color: #18372b; background: #c9dfce; font-size: 18px; font-weight: 800; }
 .side-nav { display: grid; gap: 7px; margin-top: 68px; }
 .side-nav a { display: flex; align-items: center; gap: 13px; padding: 11px 12px; border-radius: 5px; color: #b8c5bd; transition: background .18s ease, color .18s ease; }
@@ -47,6 +47,7 @@ h1, h2, h3 { margin-bottom: 0; font-weight: 650; letter-spacing: 0; }
 .eyebrow { margin: 0 0 7px; color: var(--muted); font-size: 9px; font-weight: 750; }
 .topbar .eyebrow { margin-bottom: 4px; }
 .topbar-meta { display: flex; align-items: center; gap: 16px; }
+.portal-shortcut { white-space: nowrap; }
 .live-tag { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 11px; }
 .avatar { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 50%; color: var(--green-dark); background: #dfe9df; font-size: 10px; font-weight: 750; }
 .section-block { padding-top: 35px; scroll-margin-top: 20px; }
@@ -118,16 +119,23 @@ td small { display: block; margin-top: 2px; color: #89928c; font-size: 10px; }
 
 /* User portal */
 .portal-shell { width: min(1080px, calc(100% - 48px)); min-height: 100vh; margin: 0 auto; }
-.portal-header { display: flex; height: 82px; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); }
+.portal-header { display: flex; min-height: 86px; align-items: center; justify-content: space-between; gap: 18px; padding: 12px 0; border-bottom: 1px solid var(--line); }
 .portal-header .brand { color: #1d3229; }
-.text-link { color: var(--green); font-size: 11px; font-weight: 700; }
-.text-link span { margin-left: 4px; color: var(--coral); }
+.portal-header .brand small { color: #66756c; }
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.button-nav { min-height: 40px; padding-inline: 16px; border-radius: 5px; font-size: 12px; }
+.button-nav-secondary { border-color: #cbd8ce; color: #28533f; background: #fff; }
+.button-nav-secondary:hover { border-color: #8fae98; background: #f0f5f0; }
+.button-nav-primary { color: #fff; background: var(--green); box-shadow: 0 3px 9px rgba(30, 100, 77, .16); }
+.button-nav-primary:hover { background: var(--green-dark); }
 .login-layout { display: grid; grid-template-columns: 1.15fr .85fr; gap: 80px; align-items: center; min-height: min(650px, calc(100vh - 145px)); padding: 54px 7% 72px; }
 .welcome-copy { position: relative; padding: 0 0 21px; }
 .welcome-copy::after { position: absolute; right: 5%; bottom: -30px; width: 138px; height: 1px; background: #c6d4c9; content: ""; }
 .welcome-copy .eyebrow { color: var(--coral); }
-.welcome-copy h1 { font-family: Georgia, "Times New Roman", serif; font-size: 64px; font-weight: 500; line-height: 1.04; }
-.welcome-copy h1 em { color: var(--green); font-weight: 500; }
+.welcome-copy h1 { color: #1c342b; font-size: 44px; font-weight: 750; line-height: 1.08; }
+.landing-subtitle { margin: 8px 0 26px; color: var(--green); font-size: 14px; font-weight: 700; }
+.welcome-copy h2 { font-family: Georgia, "Times New Roman", serif; font-size: 40px; font-weight: 500; line-height: 1.12; }
+.welcome-copy h2 em { color: var(--green); font-weight: 500; }
 .welcome-description { max-width: 380px; margin: 20px 0 27px; color: #65716a; font-size: 14px; line-height: 1.75; }
 .welcome-rule { display: flex; align-items: center; gap: 12px; color: #66766c; font-size: 10px; }
 .welcome-rule span:first-child { color: var(--coral); font-size: 10px; font-weight: 800; }
@@ -224,13 +232,21 @@ td small { display: block; margin-top: 2px; color: #89928c; font-size: 10px; }
   .inline-form { grid-template-columns: 1fr 1fr; }
   .portal-shell { width: min(100% - 30px, 650px); }
   .login-layout { grid-template-columns: 1fr; gap: 28px; min-height: initial; padding: 48px 0 30px; }
-  .welcome-copy h1 { font-size: 48px; }
+  .welcome-copy h1 { font-size: 38px; }
+  .welcome-copy h2 { font-size: 34px; }
   .welcome-copy::after { display: none; }
   .login-panel { padding: 21px; }
   .portal-dashboard { padding-top: 25px; }
   .history-answers { grid-template-columns: 1fr; }
 }
+@media (max-width: 800px) {
+  .topbar { flex-wrap: wrap; gap: 10px; padding: 16px 0; }
+  .topbar-meta { width: 100%; justify-content: flex-end; }
+}
 @media (max-width: 460px) {
+  .portal-header { align-items: flex-start; flex-wrap: wrap; gap: 12px; }
+  .header-actions { width: 100%; }
+  .header-actions .button { flex: 1; }
   .field-row { grid-template-columns: 1fr; }
   .inline-form { grid-template-columns: 1fr; }
   .topbar-meta { gap: 8px; }
